@@ -21,7 +21,7 @@
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'cart' %}">Cart <span class="sr-only"></span></a>
+                <a class="nav-link" href="{% url 'cart' %}">cart <span class="sr-only"></span></a>
             </li>
             {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
@@ -57,9 +57,6 @@
                 <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
         {% endif %}
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
     </ul>
 </div>
 </div>
