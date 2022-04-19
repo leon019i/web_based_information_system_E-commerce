@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
@@ -26,4 +27,10 @@ def addtocart(request):
             return JsonResponse({ 'status':"Login to continue" })
 
 
-    return redirect('/')    
+    return redirect('/')
+
+def viewcart(request):
+    cart = Cart.objects.filter(user=request.user)
+    context = {'cart':cart}
+    return render(request, "store/cart.html", context)
+
