@@ -41,7 +41,7 @@
                                     </h2>
                                     <hr>
                                     <label class = "me-3">
-                                        Original Price : <s>{{ products.original_price | stringformat:'d' }} Egp</s>
+                                        Original Price : <s>{{ products.original_price | stringformat:'d' }} EGP</s>
                                     </label>
                                     <label class = "fw-bold">Selling Price : {{ products.selling_price | stringformat:'d' }} EGP</label>
                                     <p class="mt-3">
@@ -51,7 +51,7 @@
                                     {% if products.quantity > 0 %}
                                         <label class = "badge bg-success">In stock</label>
                                     {% else %}
-                                        <label class = "badge bg-success">Out of stock</label>
+                                        <label class = "badge bg-danger">Out of stock</label>
                                     {% endif %}
                                     <div class='row mt-2'>
                                         <div class="col-md-3">

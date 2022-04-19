@@ -2,8 +2,8 @@
 {% block content %}
     <div class= "py-3 bg-primary">
         <div class= "container">
-            <a class="text-white" href="{% url 'home' %}"> Home </a>
-            <a class="text-white" href="{% url 'cart' %}">cart /</a>
+            <a class="text-white" href="{% url 'home' %}"> Home / </a>
+            <a class="text-white" href="{% url 'cart' %}"> Cart</a>
         </div>
     </div>
     <div class="py-5">
@@ -38,7 +38,8 @@
                                         </div>
 
                                         {% else %}
-                                        <h6> Out of stock </h6>
+                                         <label class = "badge bg-danger p-2">Out of stock</label>
+                                        
                                         {% endif %}
                                     </div>
                                     <div class="col-md-2 my-auto">
