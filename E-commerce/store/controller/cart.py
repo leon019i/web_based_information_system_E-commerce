@@ -1,3 +1,4 @@
+from itertools import product
 from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -34,3 +35,24 @@ def viewcart(request):
     context = {'cart':cart}
     return render(request, "store/cart.html", context)
 
+def updatecart(request):
+    if request.method == 'POST':
+        prod_id = int(request.POST.get('product_id'))
+        if(Cart.objects.filter(user=request.user, product_id=prod_id)):
+            prod_qty = int(request.POST.get('product_qty'))
+            cart = Cart.objects.get( product_id=prod_id , user=request.user)
+            cart.product_qty = prod_qty
+            cart.save()
+            return JsonResponse({ 'status':"updated successfully" })
+
+    return redirect('/')
+
+def deleteitem(request):
+    if request.method == 'POST':
+         prod_id = int(request.POST.get('product_id'))
+         if(Cart.objects.filter(user=request.user, product_id=prod_id)):
+             cart_item = Cart.objects.get(product_id=prod_id, user=request.user)
+             cart_item.delete()
+         return JsonResponse({ 'status':"item deleted successfully" })
+    
+    return redirect('/')
