@@ -17,13 +17,14 @@
                 >
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'collections' %}">collections</a>
+                <a class="nav-link" href="{% url 'collections' %}">Collections</a>
             </li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'cart' %}">cart <span class="sr-only"></span></a>
-            </li>
+            
             {% if request.user.is_authenticated %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'cart' %}">Cart <i class="fa fa-shopping-cart m-1"></i> <span class="sr-only"></span></a>
+            </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
                        href="#"
