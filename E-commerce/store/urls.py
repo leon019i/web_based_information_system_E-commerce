@@ -17,4 +17,6 @@ urlpatterns = [
     path('update-cart', cart.updatecart, name="updatecart"),
     path('delete-cart-item', cart.deleteitem, name="deleteitem"),
 
+
+
 ]

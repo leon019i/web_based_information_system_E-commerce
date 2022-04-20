@@ -17,7 +17,7 @@ def addtocart(request):
                 else:
                     prod_qty = int(request.POST.get('product_qty'))
                     if(product_check.quantity >= prod_qty):
-                        Cart.objects.create(user=request.user, product_id=prod_id, product_qty=prod_qty) 
+                        Cart.objects.create(user=request.user, product_id=prod_id, product_qty=prod_qty)
                         return JsonResponse({ 'status':"Product added successfully!" })
                     else:
                         return JsonResponse({ 'status':"Only "+ str(product_check.quantity)+" quantity available"})
@@ -38,12 +38,17 @@ def viewcart(request):
 def updatecart(request):
     if request.method == 'POST':
         prod_id = int(request.POST.get('product_id'))
+        product_check = Product.objects.get(id=prod_id)
         if(Cart.objects.filter(user=request.user, product_id=prod_id)):
             prod_qty = int(request.POST.get('product_qty'))
             cart = Cart.objects.get( product_id=prod_id , user=request.user)
-            cart.product_qty = prod_qty
-            cart.save()
-            return JsonResponse({ 'status':"updated successfully" })
+            if(product_check.quantity >= prod_qty):
+                cart.product_qty = prod_qty
+                cart.save()
+                return JsonResponse({ 'status':"updated successfully" })
+            else:
+                return JsonResponse({ 'status':"Only "+ str(product_check.quantity)+" quantity available"})
+                
 
     return redirect('/')
 
@@ -56,3 +61,6 @@ def deleteitem(request):
          return JsonResponse({ 'status':"item deleted successfully" })
     
     return redirect('/')
+
+
+

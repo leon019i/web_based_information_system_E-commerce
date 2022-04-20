@@ -9,6 +9,7 @@ $(document).ready(function() {
             $(this).closest('.product_data').find('.qty-input').val(value);
         }
     });
+
     $('.decrement-btn').click(function(e) {
         e.preventDefault();
         var dec_value = $(this).closest('.product_data').find('.qty-input').val();
@@ -58,7 +59,9 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-        
+                // $('.quantitydiv').load(location.href + " .quantitydiv");
+                // location.reload()
+                alertify.success(response.status)
                 
             }
         });
@@ -79,7 +82,6 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-                alertify.success(response.status)
                 $('.cartdata').load(location.href + " .cartdata");
                 
             }
