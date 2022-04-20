@@ -62,8 +62,7 @@ $(document).ready(function() {
         });
         
     });
-
-    $('.changeQuantity').click(function (e) {
+    $(document).on('click','.changeQuantity', function(e) {
         e.preventDefault();
         var product_id = $(this).closest('.product_data').find('.prod_id').val();
         var product_qty = $(this).closest('.product_data').find('.qty-input').val();    
@@ -78,7 +77,7 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-                // $('.quantitydiv').load(location.href + " .quantitydiv");
+                //  $('.quantitydiv').load(location.href + " .quantitydiv");
                 // location.reload()
                 alertify.success(response.status)
                 

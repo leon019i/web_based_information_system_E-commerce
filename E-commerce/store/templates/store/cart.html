@@ -6,7 +6,6 @@
             <a class="text-white" href="{% url 'cart' %}">Cart</a>
         </div>
     </div>
-    
     <div class="py-5">
         <div class= "container">
             <div class= "row">
@@ -33,13 +32,16 @@
                                             {% csrf_token %}
                                             {% if item.product.quantity >= item.product_qty %}
                                                 <label for="Quantity">Quantity</label>
-                                                <div class="input-group text-center mb-3" style="width:130px;">
+                                                <div class="input-group text-center quantitydiv mb-3" style="width:130px;">
                                                     <button class="input-group-text changeQuantity decrement-btn">-</button>
                                                     <input type="text"
                                                            name="quantity"
                                                            class="form-control qty-input text-center"
                                                            value="{{ item.product_qty }}">
-                                                           <button class="input-group-text changeQuantity increment-btn" id="cartPageIncrementButton">+</button>    
+                                                    {% comment %} {% if item.product_qty < item.product.quantity %} {% endcomment %}
+                                                        <button class="input-group-text changeQuantity increment-btn"
+                                                                id="cartPageIncrementButton">+</button>
+                                                    {% comment %} {% endif %} {% endcomment %}
                                                 </div>
                                             {% else %}
                                                 <label class = "badge bg-danger p-2">Out of stock</label>
