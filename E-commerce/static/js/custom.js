@@ -77,7 +77,7 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-                //  $('.quantitydiv').load(location.href + " .quantitydiv");
+                //   $('.quantitydiv').load(location.href + " .quantitydiv");
                 // location.reload()
                 alertify.success(response.status)
                 

@@ -38,10 +38,10 @@
                                                            name="quantity"
                                                            class="form-control qty-input text-center"
                                                            value="{{ item.product_qty }}">
-                                                    {% comment %} {% if item.product_qty < item.product.quantity %} {% endcomment %}
-                                                        <button class="input-group-text changeQuantity increment-btn"
-                                                                id="cartPageIncrementButton">+</button>
-                                                    {% comment %} {% endif %} {% endcomment %}
+                                                    <button class="input-group-text changeQuantity increment-btn {%comment%}{% if item.product_qty < item.product.quantity %}disabled{% endif %}{%endcomment%}"
+                                                            id="cartPageIncrementButton">
+                                                        +
+                                                    </button>
                                                 </div>
                                             {% else %}
                                                 <label class = "badge bg-danger p-2">Out of stock</label>
