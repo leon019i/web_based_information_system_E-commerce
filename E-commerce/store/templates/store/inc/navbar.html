@@ -1,6 +1,7 @@
+{%load static%}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="{% url 'home' %}">E-Shop<img src="{% static 'images/icons8-franchise-50.png' %}" alt="image"></a>
         <button class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -9,23 +10,69 @@
                 aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> 
+        <div class="search-bar">
+            <form action="{%url 'searchproduct'%}" method="Post" >
+                {%csrf_token%}
+                <div class="input-group">
+                    <input type="search" required
+                    class="form-control"
+                    name="productsearch"
+                    placeholder="search products"
+                    id="searchproducts">
+                    </input>
+                    <button class="input-group-text" 
+                    type="submit">
+                    <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>  
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a
+                <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %} " href="{% url 'home' %}">Home <span class="sr-only"></span></a
                 >
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'collections' %}">collections</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'collections' %}active{% endif %}" href="{% url 'collections' %}">Collections</a>
+            </li>
+
+            
+            {% if request.user.is_authenticated %}
+            <li class="nav-item active">
+                <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">Cart <i class="fa fa-shopping-cart m-1"></i> <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}" href="{% url 'wishlist' %}">Wishlist <i class="fa fa-heart"></i> <span class="sr-only"></span></a>
+            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">  <img src="{% static 'images/person-circle.svg' %}" alt="user-icon"> {{ request.user }} </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'myorders'%}">My Orders</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Another action</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'loginpage' %}active{% endif %}" href="{% url 'loginpage' %}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">Register</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-    </div>
+        {% endif %}
+    </ul>
+</div>
 </div>
 </nav>

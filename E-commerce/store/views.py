@@ -10,7 +10,9 @@ from .models import Category,  Product
 
 
 def home(request):
-    return render(request, "store/index.html")
+    trending_products = Product.objects.filter(trending=1)
+    context = {'trending_products': trending_products}
+    return render(request, "store/index.html",context)
 
 
 def collections(request):
@@ -41,3 +43,22 @@ def productview(request, cate_slug, prod_slug):
         return redirect('collections')
 
     return render(request, "store/products/view.html", context)
+
+def productlistAjax(request):
+    products = Product.objects.filter(status=0).values_list('name',flat=True)
+    productsList = list(products)
+    return JsonResponse(productsList,safe=False)
+
+def searchproduct(request):
+    if request.method =="POST":
+        searchedterm = request.POST.get('productsearch')
+        if searchedterm =="":
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            product = Product.objects.filter(name__conatains=searchedterm).first()
+            if product:
+                return redirect('collections/'+product.category.slug+'/'+product.slug)
+            else:
+                messages.info(request,"No Product Matched Your Search")
+                return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))

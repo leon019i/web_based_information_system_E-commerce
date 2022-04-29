@@ -2,6 +2,80 @@
 
 {% include 'store/inc/slider.html' %}
 
-<h1>Hello world</h1>
+<div class= "container my-5">
+    <div class= "row">
+        <div class= "col-md-12">
+            <h3>Trending Products</h3>
+            <hr>
+            <div class= "row owl-carousel owl-theme">
+            {% for item in category %}
+                <div class= "product_data item">
+                    <div class= "card">
+                        <div class= "card-body">
+                            <a href="{% url 'productview' item.category.sulg item.slug %}">
+                                <div class= "category-image">
+                                    <img src="{{ item.product_image.url }}" alt="Product image" class="w-100">
+                                </div>
+                                <h4 class="text-center">{{ item.name }}</h4>
+                            </a>
+                            <span class="text-dark" class="float-start"><s>{{ item.original_price }}</s></span>
+                            <span class="text-end" class="float-start">{{ item.selling_price }}</span>
+
+                            <br>
+                            <div class='row mt-2'>
+                                <div class="col-md-6">
+                                    {% csrf_token %}
+                                    <input type="hidden" value= "{{ item.id }}" class="prod_id">
+                                    <div class="input-group text-center mb-3">
+                                        <button class="input-group-text decrement-btn">-</button>
+                                        <input type="text"
+                                                name='quantity'
+                                                class="form-control qty-input text-center"
+                                                value="1">
+                                        <button class="input-group-text increment-btn">+</button>
+                                    </div>
+                                </div>
+                                <div class "col-md-6 p-0">
+                                    <span class="mb-2">
+                                        {% if products.quantity > 0 %}
+                                            <button class="btn btn-primary btn-sm me-3 py-2 add-to-cart-btn">
+                                                Add to Cart<i class="fa fa-shopping-cart m-1"></i>
+                                            </button>
+                                        {%else%}
+                                            <button class="btn btn-danger btn-sm me-3 disabled">Out Of Stock</button>
+                                        {% endif %}
+                                    </span>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
+
+{%block script%}
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        dots:false,
+        nav:true,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:3
+            },
+            1000:{
+                items:4
+            }
+        }
+    })
+</script>
+
+{%endblock script%}
