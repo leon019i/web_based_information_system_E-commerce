@@ -11,7 +11,7 @@ urlpatterns = [
     path('collections/<str:cate_slug>/<str:prod_slug>', views.productview, name="productview"),
     
     path("product-list",views.productlistAjax),
-    path('searchproduct',views.searchproduct, name="searchproduct")
+    path('searchproduct',views.searchproduct, name="searchproduct"),
 
 
     path('register/',authview.register, name='register'),
