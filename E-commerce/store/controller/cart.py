@@ -23,13 +23,13 @@ def addtocart(request):
                     else:
                         return JsonResponse({ 'status':"Only "+ str(product_check.quantity)+" quantity available"})
             else:
-                return JsonResponse({ 'status':"No such product found" })
-            
+                return JsonResponse({ 'status':"No such product found" })        
         else:
-           return JsonResponse({ 'status':"Login to continue" })
+            return JsonResponse({ 'status':"Login to continue" })
 
 
     return redirect('/')
+
 @login_required(login_url='loginpage')
 def viewcart(request):
     cart = Cart.objects.filter(user=request.user)
