@@ -3,9 +3,10 @@ from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 from store.models import Product, Cart
 
+@login_required(login_url='loginpage')
 def addtocart(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -29,12 +30,12 @@ def addtocart(request):
 
 
     return redirect('/')
-
+@login_required(login_url='loginpage')
 def viewcart(request):
     cart = Cart.objects.filter(user=request.user)
     context = {'cart':cart}
     return render(request, "store/cart.html", context)
-
+@login_required(login_url='loginpage')
 def updatecart(request):
     if request.method == 'POST':
         prod_id = int(request.POST.get('product_id'))
@@ -51,7 +52,7 @@ def updatecart(request):
                 
 
     return redirect('/')
-
+@login_required(login_url='loginpage')
 def deleteitem(request):
     if request.method == 'POST':
          prod_id = int(request.POST.get('product_id'))
