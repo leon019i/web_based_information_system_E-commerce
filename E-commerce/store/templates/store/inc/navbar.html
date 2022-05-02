@@ -1,7 +1,7 @@
 {%load static%}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">E-Shop<img src="{% static 'images/icons8-franchise-50.png' %}" alt="image"></a>
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/icons8-franchise-50.png' %}" alt="image"></a>
         <button class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -10,24 +10,7 @@
                 aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button> 
-        <div class="search-bar">
-            <form action="{%url 'searchproduct'%}" method="Post" >
-                {%csrf_token%}
-                <div class="input-group">
-                    <input type="search" required
-                    class="form-control"
-                    name="productsearch"
-                    placeholder="search products"
-                    id="searchproducts">
-                    </input>
-                    <button class="input-group-text" 
-                    type="submit">
-                    <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </form>
-        </div>  
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -50,7 +33,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">  <img src="{% static 'images/person-circle.svg' %}" alt="user-icon"> {{ request.user }} </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="{% url 'myorders'%}">My Orders</a>
+                            <a class="dropdown-item" href="#">Action</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="#">Another action</a>
