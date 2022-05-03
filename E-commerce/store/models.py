@@ -1,4 +1,14 @@
+from __future__ import unicode_literals
 from datetime import datetime
+from django.core.mail import send_mail
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.base_user import BaseUserManager
+from django.utils.translation import gettext_lazy as _
+from numpy import true_divide
+from django.conf import settings
+#from .managers import UserManager
+
 import email
 from email import message
 from email.mime import image
@@ -8,7 +18,7 @@ from xmlrpc.client import DateTime
 from django.db import models
 from django.forms import CharField
 from django.core.validators import FileExtensionValidator
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from PIL import Image
 
 import datetime
@@ -22,6 +32,60 @@ def get_file_path(request,filename):
     filename ="%s%s" %(nowTime, original_filename)
     return os.path.join('upload/',filename)
 
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, email,user_name, password, **extra_fields):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email,user_name=user_name, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, user_name,password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email,user_name ,password, **extra_fields)
+
+    def create_superuser(self, email,user_name, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email,user_name, password, **extra_fields)
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_('email address'), unique=True)
+    user_name = models.CharField(_('user name'), max_length=30, blank=True, primary_key=True)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    is_active = models.BooleanField(_('active'), default=False)
+    avatar = models.ImageField(upload_to='static/upload/', null=True, blank=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ["user_name"]
+
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
+    def get_user_name(self):
+        '''
+        Returns the user name.
+        ''' 
+        return self.user_name
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        '''
+        Sends an email to this User.
+        '''
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
 class Category(models.Model):
