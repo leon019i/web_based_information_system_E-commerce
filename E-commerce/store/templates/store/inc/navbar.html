@@ -39,7 +39,7 @@
             </li>
 
             
-            {% if request.User.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <li class="nav-item active">
                 <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">Cart <i class="fa fa-shopping-cart m-1"></i> <span class="sr-only"></span></a>
             </li>
