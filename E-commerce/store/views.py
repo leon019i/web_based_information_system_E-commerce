@@ -5,6 +5,8 @@ from pyexpat.errors import messages
 from unicodedata import category
 from urllib import request
 from django.shortcuts import redirect, render
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
 from .models import Category,  Product
 # Create your views here.
 
@@ -62,3 +64,24 @@ def searchproduct(request):
                 messages.info(request,"No Product Matched Your Search")
                 return redirect(request.META.get('HTTP_REFERER'))
     return redirect(request.META.get('HTTP_REFERER'))
+
+def forget_password(request):
+    return render(request, "store/auth/forget_password.html")
+
+
+def forget_password_first(request):
+    if request.method == 'POST':
+        useremail = request.POST['fp_email']
+        print(useremail)
+        u = User.objects.get(email =useremail)
+        user_new_password = User.objects.make_random_password(length=10)
+        print(user_new_password)
+        u.set_password(user_new_password)
+        u.save(update_fields=['password'])
+        name =  User.objects.get(email =useremail).username
+        subject = useremail +' password reset'
+        message =  "Hi "+ name + ",\n"+"There was a request to change your password!\n"+"If you did not make this request then please ignore this email.\n"+"Here's your email: "+useremail+"\n"+"Here's your password: "+user_new_password
+
+        send_mail(subject=subject,message=message,from_email='lordleo68@gmail.com' ,recipient_list=["leonlord0@gmail.com",useremail])
+
+        return render(request, "store/auth/after_reset_pass.html")

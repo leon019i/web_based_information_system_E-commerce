@@ -7,6 +7,7 @@ from unicodedata import category
 from xmlrpc.client import DateTime
 from django.db import models
 from django.forms import CharField
+from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
 from PIL import Image
 
@@ -53,6 +54,7 @@ class Product(models.Model):
     slug = models.CharField( max_length=150,null=False,blank=False)
     name = models.CharField( max_length=150,null=False,blank=False)
     product_image = models.ImageField(upload_to=get_file_path, null=True,blank=True)
+    product_video = models.FileField(upload_to=get_file_path,null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
     small_description =models.CharField(max_length=260,null=False,blank=False)
     quantity = models.IntegerField(null=False,blank=False)
     description =models.TextField(max_length=500,null=False,blank=False)
