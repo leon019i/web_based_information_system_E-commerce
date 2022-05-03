@@ -1,14 +1,12 @@
 from datetime import datetime
-import email
-from email import message
 from email.mime import image
-from statistics import mode
 from unicodedata import category
 from xmlrpc.client import DateTime
 from django.db import models
 from django.forms import CharField
 from django.contrib.auth.models import User
 from PIL import Image
+from django.core.validators import FileExtensionValidator
 
 import datetime
 import os
@@ -58,6 +56,7 @@ class Product(models.Model):
     description =models.TextField(max_length=500,null=False,blank=False)
     original_price = models.FloatField(null=False,blank=False)
     selling_price = models.FloatField(null=False,blank=False)
+    product_video = models.FileField(upload_to=get_file_path,null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
     status=models.BooleanField(default=False,help_text="0 = default, 1 = Hidden")
     trending=models.BooleanField(default=False,help_text="0 = default, 1 = Hidden")
     tag = models.CharField(max_length=150,null=False,blank=False)

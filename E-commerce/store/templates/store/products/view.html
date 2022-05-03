@@ -1,4 +1,5 @@
 {% extends 'store/layouts/main.html' %}
+{% load static %}
 {% block content %}
     <div class= "py-3 bg-primary">
         <div class= "container">
@@ -87,6 +88,17 @@
                                 <p class="mt-3">
                                     {{ products.description }}
                                 </p>
+                                <h3>Product Video</h3>
+                                {% if products.product_video %}
+    
+                                    <div style="background-color: white; float: center; padding: 100px;">  
+                                        <video controls="" autoplay="" name="media"><source src="{{products.product_video.url}}" type="video/mp4"></video>
+                                    </div>
+                                {% else %}
+                            
+                                    <div style="background-color: white; float: center; padding: 100px;"><img src="{% static 'images\set-grunge-rubber-stamps-text-260nw-1015814803.webp.png' %}">
+                                    </div>
+                                {% endif %} 
                             </div>
                         </div>
                     </div>
