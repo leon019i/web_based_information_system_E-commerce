@@ -1,0 +1,265 @@
+{% extends 'store/layouts/main.html' %}
+{% block content %}
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home /</a>
+        <a class="text-white" href="{% url 'checkout' %}">Checkout</a>
+    </div>
+</div>
+<div class="container mt-4">
+    <form action="{% url 'placeorder' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="card shadow checkoutform">
+                    <div class="card-body">
+
+                        <h6>Basic Details</h6>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="">First Name</label>
+                                <input type="text" required class="form-control" value="{{ request.user.first_name }}"
+                                    name="fname" placeholder="Enter first name">
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <label for="">Last Name</label>
+                                <input type="text" required class="form-control" value="{{ request.user.last_name }}"
+                                    name="lname" placeholder="Enter last name">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Email</label>
+                                <input type="email" required class="form-control" value="{{ request.user.email }}"
+                                    name="email" placeholder="Enter Email">
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Phone</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.phone }}"
+                                    name="phone" placeholder="Enter Phone">
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+
+                                <label for="">Address</label>
+                                <textarea class="form-control" required name="address"
+                                    placeholder="Enter your Address"> {{ userprofile.address }} </textarea>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">City</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.city }}"
+                                    name="city" placeholder="Enter City">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">State</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.state }}"
+                                    name="state" placeholder="Enter State">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Country</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.country }}"
+                                    name="country" placeholder="Enter Country">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Pin Code</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.pincode }}"
+                                    name="pincode" placeholder="Enter Pin Code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 m-auto mt-1">
+
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h6>Order Summary</h6>
+                        <hr>
+                        {% if cartitems %}
+                        <table class="table table-stripeds table-bordereds">
+                            <thead>
+                                <tr>
+                                    <th>Name </th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cartitems %}
+                                <tr>
+
+                                    <td>
+                                        <img src="{{ item.product.product_image.url }}" height="50px" class="me-2"
+                                            width="" alt="" width="50px">
+                                        {{ item.product.name }}
+                                    </td>
+                                    <td>{{ item.product_qty }}</td>
+                                    <td>{{ item.product.selling_price | stringformat:'d' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <h6 class="fw-bold">Grand Total
+                            <span class="float-end">  {{ total_price | stringformat:'d' }} <i
+                                    class="bi bi-currency-dollar"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-currency-dollar"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z" />
+                                    </svg></i></span>
+                        </h6>
+                        <input type="hidden" value="COD" name="payment_mode">
+                        <div class="mt-3">
+
+                            <button type="submit" class="btn btn-success w-100 "> COD | Place Order</button>
+                            <div id="paypal-button-container" class="mt-2"></div>
+
+                        </div>
+
+                        {% else %}
+                        <h4>Your cart is empty </h4>
+
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+
+
+
+
+{% endblock content %}
+{% block scripts %}
+
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AVyfI_ATd9MBiPKgoJqn5p49ImSYIbTNzedF4ZGflPZla2RqYPViQJBBUwpbWo_HyGnMUM0eDlXyYcyd&currency=USD"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            shape: 'pill',
+            color: 'blue'
+
+
+        },
+        onClick: function (data, actions) {
+            var fname = $("[name='fname']").val();
+            var lname = $("[name='lname']").val();
+            var email = $("[name='email']").val();
+            var phone = $("[name='phone']").val();
+            var address = $("[name='address']").val();
+            var city = $("[name='city']").val();
+            var state = $("[name='state']").val();
+            var country = $("[name='country']").val();
+            var pincode = $("[name='pincode']").val();
+            var token = $("[name='csrfmiddlewaretoken']").val();
+
+            if (fname == "" || lname == "" || email == "" || phone == "" || address == "" || city == "" || state == "" || country == "" || pincode == "") {
+                swal("Alert!", "All Fields are mandatory!", "error");
+                return false;
+
+            } else {
+                return true;
+
+            }
+
+
+        },
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{ total_price }}' // Can also reference a variable or function
+                    }
+                }]
+            });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function (orderData) {
+                
+                var fname = $("[name='fname']").val();
+                var lname = $("[name='lname']").val();
+                var email = $("[name='email']").val();
+                var phone = $("[name='phone']").val();
+                var address = $("[name='address']").val();
+                var city = $("[name='city']").val();
+                var state = $("[name='state']").val();
+                var country = $("[name='country']").val();
+                var pincode = $("[name='pincode']").val();
+                var token = $("[name='csrfmiddlewaretoken']").val();
+
+                // Successful capture! For dev/demo purposes:
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                alert(orderData.id);
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+                data = {
+                    "fname": fname,
+                    "lname": lname,
+                    "email": email,
+                    "phone": phone,
+                    "address": address,
+                    "city": city,
+                    "state": state,
+                    "country": country,
+                    "pincode": pincode,
+                    "payment_mode": "Paid by PayPal",
+                    "payment_id": orderData.id,
+                    csrfmiddlewaretoken: token
+
+
+                }
+ 
+
+
+
+                $.ajax({
+                    method: "POST",
+                    url: "/place-order",
+                    data: data,
+                    success: function (responsec) {
+                       
+                        swal("Congratulations!", responsec.status, "success").then((value) => {
+                            window.location.href='/my-orders'   
+                            })
+                         
+                         
+                      
+
+
+                    }
+                });
+                
+
+
+
+
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock scripts %}

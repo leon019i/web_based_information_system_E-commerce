@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
-    'embed_video',
 ]
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 75
@@ -140,9 +139,3 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'                   #WRITE HOST MAILBOX
-EMAIL_PORT = '587'                    #HOST PORT   
-EMAIL_USE_TLS = True                # IF THE CERTIFICATE TLS SET TO TRUE ELSE FALSE
-EMAIL_HOST_USER = 'lordleo68@gmail.com'                #THE RECIVING EMAIL
-EMAIL_HOST_PASSWORD = 'dragon6000'          #THE RECIVING EMAIL PASSWORD
