@@ -1,5 +1,8 @@
 from datetime import datetime
 import email
+import imp
+import re
+from django.db import models
 from email import message
 from email.mime import image
 from statistics import mode
@@ -8,8 +11,9 @@ from xmlrpc.client import DateTime
 from django.db import models
 from django.forms import CharField
 from django.core.validators import FileExtensionValidator
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from PIL import Image
+from account import models as account
 
 import datetime
 import os
@@ -72,19 +76,19 @@ class Product(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(account.Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE) 
     product_qty = models.IntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Whishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(account.Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE) 
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Order(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.ForeignKey(account.Account,on_delete=models.CASCADE)
     fname=models.CharField(max_length=150,null=False)
     lname=models.CharField(max_length=150,null=False)    
     email=models.CharField(max_length=150,null=False)
@@ -125,7 +129,7 @@ class OrderItem(models.Model):
             return '{} {}' .format(self.order.id,self.order.tracking_no)
 
 class Profile(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    user=models.OneToOneField(account.Account,on_delete=models.CASCADE)
     phone=models.CharField(max_length=150,null=False)
     address=models.TextField(null=False)
     city=models.CharField(max_length=150,null=False)
