@@ -91,8 +91,8 @@
                                 <h3>Product Video</h3>
                                 {% if products.product_video %}
     
-                                    <div style="background-color: white; float: center; padding: 100px;">  
-                                        <video controls="" autoplay="" name="media"><source src="{{products.product_video.url}}" type="video/mp4"></video>
+                                    <div style="background-color: white; float: center; padding: 10px;">  
+                                        <video controls="" name="media" width="480" height="320"><source src="{{products.product_video.url}}" type="video/mp4"></video>
                                     </div>
                                 {% else %}
                             
