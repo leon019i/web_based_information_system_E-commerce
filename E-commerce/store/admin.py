@@ -17,9 +17,9 @@ admin.site.register(Profile)
 
 admin.site.unregister(Group)
 class AccountAdmin(UserAdmin):
-    list_display = ('email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_staff')
+    list_display = ('email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_staff','is_activated_via_email')
     search_fields = ('email', 'username')
-    readonly_fields=('date_joined', 'last_login')
+    readonly_fields=('date_joined', 'last_login', 'is_activated_via_email')
 
     filter_horizontal = ()
     list_filter = ()

@@ -51,8 +51,9 @@ def activate(request, uidb64, token):
         user = Account.objects.get(pk=uid)  
     except(TypeError, ValueError, OverflowError, Account.DoesNotExist):  
         user = None  
-    if user is not None and account_activation_token.check_token(user, token):  
-        user.is_active = True  
+    if user is not None and account_activation_token.check_token(user, token) and (user.is_activated_via_email == False):  
+        user.is_active = True 
+        user.is_activated_via_email = True 
         user.save()
         messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.') 
