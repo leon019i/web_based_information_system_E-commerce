@@ -40,6 +40,14 @@
                                         <label class="text-danger">{{ form.errors.password2 }}</label>
                                     {% endif %}
                                 </div>
+
+                                <div class="form-outline mb-4">
+                                    <label for="">Captcha</label>               
+                                    {{ form.captcha }}
+                                    {% if form.errors.captcha %}
+                                        <label class="text-danger">{{ form.errors.captcha }}</label>
+                                    {% endif %}
+                                </div>
                                 <button type="submit" class="btn btn-success btn-block form-control">Register</button>
                             </form>
                         </div>

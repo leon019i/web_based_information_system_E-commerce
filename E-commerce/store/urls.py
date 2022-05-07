@@ -1,5 +1,5 @@
 from atexit import register
-from django.urls import path
+from django.urls import path,include
 from numpy import place
 from . import views
 from store.controller import authview,cart,wishlist,checkout,order
@@ -37,4 +37,5 @@ urlpatterns = [
     path('my-orders', order.index,name="myorders"),
     path('view-order/<str:t_no>',order.vieworder,name="overview"),
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.activate, name='activate'),
+    path('captcha/', include('captcha.urls')),
 ]
