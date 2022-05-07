@@ -1,3 +1,4 @@
+import email
 import imp
 from multiprocessing import context
 import re
@@ -16,31 +17,35 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage  
 
 from store.forms import CustomUserForm
-def register(request):   
-    if request.method == 'POST':
-        form = CustomUserForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)  
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activation link has been sent to your email id'  
-            message = render_to_string("store/auth/acc_active_email.html", {  
-                'user': user,  
-                'domain': current_site.domain,  
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
-                'token':account_activation_token.make_token(user),  
-            })
-            to_email = form.cleaned_data.get('email')
-            print(to_email)  
-            email = EmailMessage(  
-            mail_subject, message, to=[to_email]  
-            )  
-            email.send() 
-            messages.success(request, "Please confirm your email address to complete the registration")
-            # return redirect('/login')
-    else:
-        form = CustomUserForm()
+def register(request):
+    if request.user.is_authenticated:
+        messages.warning(request, "You need to logout before registering a new user")
+        return redirect('/')
+    else:   
+        if request.method == 'POST':
+            form = CustomUserForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)  
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                mail_subject = 'Activation link has been sent to your email id'  
+                message = render_to_string("store/auth/acc_active_email.html", {  
+                    'user': user,  
+                    'domain': current_site.domain,  
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                    'token':account_activation_token.make_token(user),  
+                })
+                to_email = form.cleaned_data.get('email')
+                print(to_email)  
+                email = EmailMessage(  
+                mail_subject, message, to=[to_email]  
+                )  
+                email.send() 
+                messages.success(request, "Please confirm your email address to complete the registration")
+                # return redirect('/login')
+            else:
+                form = CustomUserForm()
 
     context = {'form' : form}
     return render (request, "store/auth/register.html", context)
@@ -70,19 +75,22 @@ def loginpage(request):
 
     else:
         if request.method == 'POST':
-            name = request.POST.get('username')
+            userEmail = request.POST.get('email')
             password = request.POST.get('password')
-
-            user = authenticate(request, username=name, password=password) 
-
-            if user is not None:
-                login(request, user)
-                messages.success(request, "logged in successfully!")
-
+            user1 = Account.objects.get(email = userEmail)
+            if(not(user1.is_active)):
+                messages.error(request, "Your account is suspended, Please contact the system admin!")
                 return redirect("/")
+
             else:
-                messages.error(request, "invalid username or password")
-                return redirect("/login")
+                user = authenticate(request, email=userEmail, password=password)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, "logged in successfully!")
+                    return redirect("/")
+                else:
+                    messages.error(request, "invalid username or password")
+                    return redirect("/login")
 
         return render (request, "store/auth/login.html")
 
