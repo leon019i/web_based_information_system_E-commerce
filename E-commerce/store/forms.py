@@ -9,7 +9,7 @@ class CustomUserForm(UserCreationForm):
     email = forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control my-2', 'placeholder':'Enter email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control my-2', 'placeholder':'Enter password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control my-2', 'placeholder':'Confirm password'}))
-    captcha = CaptchaField(required=True,widget=CaptchaTextInput(attrs={'class':'form-control my-2', 'placeholder':'Enter captcha'}))
+    captcha = CaptchaField(required=True)
     class Meta:
         model = Account 
         fields =['username', 'email', 'password1', 'password2']
