@@ -4,7 +4,7 @@ from multiprocessing import context
 from pyexpat.errors import messages
 from unicodedata import category
 from urllib import request
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from account.models import Account
@@ -40,11 +40,14 @@ def productview(request, cate_slug, prod_slug):
         if(Product.objects.filter(slug=prod_slug, status=0)):
             products = Product.objects.filter(slug=prod_slug, status=0).first
             context = {'products': products}
+        else:
+            # return HttpResponse("no product found")
+            return redirect('collections')
 
     else:
         messages.warning(request, "No such category found")
         return redirect('collections')
-
+        
     return render(request, "store/products/view.html", context)
 
 def productlistAjax(request):
