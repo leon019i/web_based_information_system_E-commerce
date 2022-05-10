@@ -7,25 +7,25 @@
         <div class= "col-md-12">
             <h3>Trending Products</h3>
             <hr>
-            <div class= "row owl-carousel owl-theme">
-            {% for item in category %}
-                <div class= "product_data item">
+            <div class= "row">
+            {% for item in category_product %}
+                <div class= "product_data item col-md-6 col-lg-4 col-xl-3">
                     <div class= "card">
                         <div class= "card-body">
-                            <a href="{% url 'productview' item.category.sulg item.slug %}">
+                            <a href="{% url 'productview' item.0.slug item.1.slug %}">
                                 <div class= "category-image">
-                                    <img src="{{ item.product_image.url }}" alt="Product image" class="w-100">
+                                    <img src="{{ item.1.product_image.url }}" width="250" height="200" alt="Product image">
                                 </div>
-                                <h4 class="text-center">{{ item.name }}</h4>
+                                <h4 class="text-center">{{ item.1.name }}</h4>
                             </a>
-                            <span class="text-dark" class="float-start"><s>{{ item.original_price }}</s></span>
-                            <span class="text-end" class="float-start">{{ item.selling_price }}</span>
+                            <span class="text-dark float-start"><s>{{ item.1.original_price}} EGP</s></span>
+                            <span class="text-end float-end">{{ item.1.selling_price }} EGP</span>
 
                             <br>
                             <div class='row mt-2'>
                                 <div class="col-md-6">
                                     {% csrf_token %}
-                                    <input type="hidden" value= "{{ item.id }}" class="prod_id">
+                                    <input type="hidden" value= "{{ item.1.id }}" class="prod_id">
                                     <div class="input-group text-center mb-3">
                                         <button class="input-group-text decrement-btn">-</button>
                                         <input type="text"
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class "col-md-6 p-0">
                                     <span class="mb-2">
-                                        {% if products.quantity > 0 %}
+                                        {% if item.1.quantity > 0 %}
                                             <button class="btn btn-primary btn-sm me-3 py-2 add-to-cart-btn">
                                                 Add to Cart<i class="fa fa-shopping-cart m-1"></i>
                                             </button>

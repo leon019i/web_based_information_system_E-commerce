@@ -13,8 +13,17 @@ from .models import Category,  Product
 
 
 def home(request):
+    category_product = []
     trending_products = Product.objects.filter(trending=1)
-    context = {'trending_products': trending_products}
+    for product in trending_products:
+        category = Category.objects.get(id = product.category_id)
+        category_product.append([category, product])
+
+    context = {
+        'category_product': category_product,
+        'trending_products' : trending_products
+        }
+    print(category_product)
     return render(request, "store/index.html",context)
 
 

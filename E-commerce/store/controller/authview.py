@@ -44,8 +44,8 @@ def register(request):
                 email.send() 
                 messages.success(request, "Please confirm your email address to complete the registration")
                 # return redirect('/login')
-            else:
-                form = CustomUserForm()
+        else:
+            form = CustomUserForm()
 
     context = {'form' : form}
     return render (request, "store/auth/register.html", context)
