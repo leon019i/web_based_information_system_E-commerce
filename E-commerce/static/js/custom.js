@@ -37,7 +37,9 @@ $(document).ready(function() {
             },
             success: function (response) {
                 console.log(response)
-                alertify.success(response.status)
+                var msg = alertify.success(response.status)
+                msg.delay(1.3)
+
                 
             }
         });
@@ -58,7 +60,8 @@ $(document).ready(function() {
                 csrfmiddlewaretoken:token
             },
             success: function (response) {
-                alertify.success(response.status)
+                var msg = alertify.success(response.status)
+                msg.delay(1.3)
             }
         });
         
@@ -80,7 +83,8 @@ $(document).ready(function() {
             success: function (response) {
                 //   $('.quantitydiv').load(location.href + " .quantitydiv");
                 // location.reload()
-                alertify.success(response.status)
+                var msg = alertify.success(response.status)
+                msg.delay(1.3)
                 
             }
         });
@@ -121,7 +125,8 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-                alertify.success(response.status)
+                var msg = alertify.success(response.status)
+                msg.delay(1.3)
                 $('.wishdata').load(location.href + " .wishdata");
                 
             }
