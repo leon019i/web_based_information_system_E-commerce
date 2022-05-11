@@ -26,6 +26,7 @@
                                 <div class="col-md-6">
                                     {% csrf_token %}
                                     <input type="hidden" value= "{{ item.1.id }}" class="prod_id">
+                                    <input type="hidden" value= "{{ item.1.quantity }}" class="prod_quantity">
                                     <div class="input-group text-center mb-3">
                                         <button class="input-group-text decrement-btn">-</button>
                                         <input type="text"

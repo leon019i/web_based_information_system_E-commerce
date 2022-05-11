@@ -29,6 +29,7 @@
                                         </div>
                                         <div class="col-md-3 my-auto">
                                             <input type="hidden" class="prod_id" value="{{ item.product_id }}">
+                                            <input type="hidden" value= "{{ item.product.quantity }}" class="prod_quantity">
                                             {% csrf_token %}
                                             {% if item.product.quantity >= item.product_qty %}
                                                 <label for="Quantity">Quantity</label>
@@ -38,7 +39,7 @@
                                                            name="quantity"
                                                            class="form-control qty-input text-center"
                                                            value="{{ item.product_qty }}">
-                                                    <button class="input-group-text changeQuantity increment-btn {%comment%}{% if item.product_qty < item.product.quantity %}disabled{% endif %}{%endcomment%}"
+                                                    <button class="input-group-text changeQuantity increment-btn"
                                                             id="cartPageIncrementButton">
                                                         +
                                                     </button>

@@ -87,7 +87,10 @@ def loginpage(request):
                 if user is not None:
                     login(request, user)
                     messages.success(request, "logged in successfully!")
-                    return redirect("/")
+                    if(user.is_admin):
+                        return redirect("/admin")
+                    else:
+                        return redirect("/")
                 else:
                     messages.error(request, "invalid username or password")
                     return redirect("/login")
