@@ -1,4 +1,6 @@
+from asyncio import events
 from email import message
+import email
 from itertools import product
 from multiprocessing import context
 from pyexpat.errors import messages
@@ -8,7 +10,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from account.models import Account
-from .models import Category,  Product
+from .models import Category, Order,  Product , Cart
 # Create your views here.
 
 
@@ -65,16 +67,15 @@ def productlistAjax(request):
     return JsonResponse(productsList,safe=False)
 
 def searchproduct(request):
-    if request.method =="POST":
+    if request.method =='POST':
         searchedterm = request.POST.get('productsearch')
         if searchedterm =="":
             return redirect(request.META.get('HTTP_REFERER'))
         else:
-            product = Product.objects.filter(name__conatains=searchedterm).first()
+            product = Product.objects.filter(name__icontains=searchedterm).first()
             if product:
                 return redirect('collections/'+product.category.slug+'/'+product.slug)
             else:
-                messages.info(request,"No Product Matched Your Search")
                 return redirect(request.META.get('HTTP_REFERER'))
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -98,3 +99,4 @@ def forget_password_first(request):
         send_mail(subject=subject,message=message,from_email='lordleo68@gmail.com' ,recipient_list=["leonlord0@gmail.com",useremail])
 
         return render(request, "store/auth/after_reset_pass.html")
+
