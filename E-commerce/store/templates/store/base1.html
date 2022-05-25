@@ -1,0 +1,8 @@
+{%extends "base.html" %}
+{% load static %}
+{% block content %}
+<h1>Custom message!</h1>
+
+<!-- Render the rest of the ChangeList view by calling block.super -->
+{{ block.super }}
+{% endblock %}

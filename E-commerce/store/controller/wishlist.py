@@ -4,11 +4,25 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from store.models import Product, Whishlist
+from store.models import Product, Whishlist , OrderItem
 
 def index(request):
     wishlist = Whishlist.objects.filter(user=request.user)
-    context = {'wishlist':wishlist}
+    productnames= []
+    productordersno = []
+    ordersno= []
+    count=0
+        # for product in trending_products:
+        # category = Category.objects.get(id = product.category_id)
+        # category_product.append([category, product])
+    for prod in wishlist:
+        productnames.append(prod.product.name)
+        ordersno= Product.objects.raw('SELECT * FROM store_orderitem WHERE store_orderitem.product_id=%s',[prod.product.id])
+        for ord in ordersno:
+            count =count+1
+        productordersno.append(count)
+    zipped = zip(wishlist,productordersno)
+    context = {'wishlist':wishlist,'productordersno':productordersno, 'zipped' :zipped,'productnames':productnames}
     return render(request,'store/wishlist.html', context)
 
 def addtowishlist(request):

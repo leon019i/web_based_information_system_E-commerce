@@ -2,15 +2,19 @@ from asyncio import events
 from email import message
 import email
 from itertools import product
+import json
 from multiprocessing import context
 from pyexpat.errors import messages
 from unicodedata import category
 from urllib import request
+from xmlrpc.client import DateTime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
+from pymysql import Date
+from tomlkit import datetime
 from account.models import Account
-from .models import Category, Order,  Product , Cart
+from .models import Category, Order, OrderItem,  Product , Cart
 # Create your views here.
 
 
@@ -21,6 +25,8 @@ def home(request):
         category = Category.objects.get(id = product.category_id)
         category_product.append([category, product])
 
+    
+    
     context = {
         'category_product': category_product,
         'trending_products' : trending_products
@@ -31,7 +37,46 @@ def home(request):
 
 def collections(request):
     category = Category.objects.filter(status=0)
-    context = {'category': category}
+    categorynames=[]
+    catprod1=[]
+    catprod2=[]
+    catprod3=[]
+    catprod4=[]
+    number=0
+    numberofproductsincat = []
+    allproducts = Product.objects.all()
+    for cat in category:
+        categorynames.append(cat.name)
+
+    for prod in allproducts:
+        if prod.category.name =="Fashion":
+            catprod1.append(prod.name)
+        elif prod.category.name=="Footware":
+            catprod2.append(prod.name)
+
+        elif prod.category.name == "Mobiles":
+            catprod3.append(prod.name)
+
+        else:
+            catprod4.append(prod.name)
+    
+    number = len(catprod1)
+    numberofproductsincat.append(number)
+
+    number = len(catprod2)
+
+    numberofproductsincat.append(number)
+    
+    number = len(catprod3)
+
+    numberofproductsincat.append(number)
+    
+    number = len(catprod4)
+
+    numberofproductsincat.append(number)
+    
+    zipped = zip(category,numberofproductsincat)
+    context = {'category': category,'zipped': zipped ,'numberofproductsincat':numberofproductsincat,'categorynames':categorynames}
     return render(request, "store/collections.html", context)
 
 
@@ -99,4 +144,20 @@ def forget_password_first(request):
         send_mail(subject=subject,message=message,from_email='lordleo68@gmail.com' ,recipient_list=["leonlord0@gmail.com",useremail])
 
         return render(request, "store/auth/after_reset_pass.html")
+
+
+
+
+# def adminchart1(request):
+#     #top places/cities that sold products
+#     numberofcairo = 0
+#     numberofgiza = 0
+#     ordersincairo = Order.objects.raw('SELECT COUNT(store_order.city) FROM store_order WHERE store_order.city= %s ',['cairo'])
+#     ordersingiza = Order.objects.raw('SELECT COUNT(store_order.city) FROM store_order WHERE store_order.city= %s ',['giza'])
+#     for x in ordersincairo:
+#         numberofcairo = numberofcairo+1
+#     for y in ordersingiza:
+#         numberofgiza = numberofgiza+1
+#     context = {'numberofcairo': numberofcairo,'numberofgiza': numberofgiza}
+#     return(request,"env/Lib/site-packages/jazzmin/templates/admin/base.html", context)
 

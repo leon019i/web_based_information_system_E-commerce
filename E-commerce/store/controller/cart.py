@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from store.models import Product, Cart
+from store.models import Product, Cart, OrderItem
 
 @login_required(login_url='loginpage')
 def addtocart(request):
