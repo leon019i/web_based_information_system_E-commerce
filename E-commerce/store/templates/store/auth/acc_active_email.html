@@ -1,5 +1,8 @@
 {% autoescape off %}  
 Hi {{ user.username }},  
 Please follow the link below to complete the registeration!
-http://{{ domain }}{% url 'passwordForm' uidb64=uid token=token %}  
+http://{{ domain }}{% url 'passwordForm' uidb64=uid token=token %}
+
+Greetings, 
+E-shop dev team.
 {% endautoescape %}  

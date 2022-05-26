@@ -92,7 +92,7 @@ def placeorder(request):
                 quantity=item.product_qty
             )
         
-         # to reduce the product quantity it from available stock
+         # to reduce the product quantity from available stock
             orderproduct=Product.objects.filter(id=item.product_id).first()
             orderproduct.quantity=orderproduct.quantity - item.product_qty
             orderproduct.save()

@@ -30,7 +30,7 @@ def register(request):
                 user.is_active = False
                 user.save()
                 current_site = get_current_site(request)
-                mail_subject = 'Activation link has been sent to your email id'  
+                mail_subject = 'E-shop password form'  
                 message = render_to_string("store/auth/acc_active_email.html", {  
                     'user': user,  
                     'domain': current_site.domain,  
