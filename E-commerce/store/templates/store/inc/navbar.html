@@ -9,18 +9,18 @@
                 aria-controls="navbarNav"
                 aria-expanded="false"
                 aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> 
+                <span class="navbar-toggler-icon">
+                </span>
+        </button>
         <div class="search-bar">
             <form action="{%url 'searchproduct'%}" method="Post" >
-                {%csrf_token%}
+                {% csrf_token %}
                 <div class="input-group">
                     <input type="search" required
                     class="form-control"
                     name="productsearch"
                     placeholder="search products"
                     id="searchproducts">
-                    </input>
                     <button class="input-group-text" 
                     type="submit">
                     <i class="fa fa-search"></i>
