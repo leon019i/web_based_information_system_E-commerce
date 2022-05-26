@@ -67,9 +67,16 @@ def activate(request, uidb64, token):
         messages.success(request, "Activation link is invalid!")
         return HttpResponse('Activation link is invalid!')
          
-def passwordForm(request, uidb64, token): 
-    context = {"uidb64": uidb64, "token":token}
-    return render(request, "store/auth/Password_form.html", context)
+def passwordForm(request, uidb64, token):
+
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    user = Account.objects.get(pk=uid)
+    if user.is_activated_via_email == False: 
+        context = {"uidb64": uidb64, "token":token}
+        return render(request, "store/auth/Password_form.html", context)
+    else:
+        return HttpResponse('Link has already been used!')
+
 
 def changepassword(request):
     newPassword = request.POST.get('password')
