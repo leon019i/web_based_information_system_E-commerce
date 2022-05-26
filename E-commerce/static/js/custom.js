@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
     $('.increment-btn').click(function(e) {
         e.preventDefault();
         var inc_value = $(this).closest('.product_data').find('.qty-input').val();

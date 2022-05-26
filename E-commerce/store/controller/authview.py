@@ -1,3 +1,4 @@
+from cgi import test
 import email
 import imp
 from multiprocessing import context
@@ -36,8 +37,7 @@ def register(request):
                     'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
                     'token':account_activation_token.make_token(user),  
                 })
-                to_email = form.cleaned_data.get('email')
-                print(to_email)  
+                to_email = form.cleaned_data.get('email')  
                 email = EmailMessage(  
                 mail_subject, message, to=[to_email]  
                 )  
@@ -67,6 +67,30 @@ def activate(request, uidb64, token):
         messages.success(request, "Activation link is invalid!")
         return HttpResponse('Activation link is invalid!')
          
+def passwordForm(request, uidb64, token): 
+    context = {"uidb64": uidb64, "token":token}
+    return render(request, "store/auth/Password_form.html", context)
+
+def changepassword(request):
+    newPassword = request.POST.get('password')
+    token = request.POST.get('tok')
+    uidb64 = request.POST.get('uidb64')
+    if request.method == 'POST':
+        try:  
+            uid = force_str(urlsafe_base64_decode(uidb64))  
+            user = Account.objects.get(pk=uid)  
+        except(TypeError, ValueError, OverflowError, Account.DoesNotExist):  
+            user = None
+        if user is not None and account_activation_token.check_token(user, token) and (user.is_activated_via_email == False):
+            user.is_active = True 
+            user.is_activated_via_email = True 
+            user.save()
+            user.set_password(newPassword)
+            user.save(update_fields=['password'])
+            messages.success(request, "Thank you for completing the registeration. Now you can login to your account.")
+            return redirect('/login')
+        else:
+            return HttpResponse('Link has already been used!')
 
 def loginpage(request):
     if request.user.is_authenticated:

@@ -26,14 +26,14 @@
                                         <label class="text-danger">{{ form.errors.email }}</label>
                                     {% endif %}
                                 </div>
-                                <div class="form-outline mb-4">
+                                <div class="form-outline mb-4" hidden>
                                     <label for="">Password</label>
-                                    {{ form.password1 }}
-                                    {% if form.errors.password1 %}
+                                     {{ form.password1 }} 
+                                     {% if form.errors.password1 %}
                                         <label class="text-danger" >{{ form.errors.password1 }}</label>
-                                    {% endif %}
+                                    {% endif %} 
                                 </div>
-                                <div class="form-outline mb-4">
+                                <div class="form-outline mb-4" hidden>
                                     <label for="">Confirm password</label>
                                     {{ form.password2 }}
                                     {% if form.errors.password2 %}

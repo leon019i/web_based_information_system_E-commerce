@@ -3,6 +3,7 @@ from django.urls import path,include
 from numpy import place
 from . import views
 from store.controller import authview,cart,wishlist,checkout,order
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -18,6 +19,8 @@ urlpatterns = [
     path('register/',authview.register, name='register'),
     path('login/', authview.loginpage, name="loginpage"),
     path('logout/', authview.logoutpage, name="logout"),
+    path('passwordForm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.passwordForm, name="passwordForm"),
+    path('submit-password-form', authview.changepassword, name="changepassword"),
     path('forget-password/', views.forget_password, name="forget_password"),
     path('forget-forget_password_first/', views.forget_password_first, name="forget_password_first"),
 
@@ -38,4 +41,5 @@ urlpatterns = [
     path('view-order/<str:t_no>',order.vieworder,name="overview"),
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.activate, name='activate'),
     path('captcha/', include('captcha.urls')),
+
 ]
