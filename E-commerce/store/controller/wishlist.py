@@ -1,4 +1,3 @@
-from itertools import product
 from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -11,16 +10,10 @@ def index(request):
     productnames= []
     productordersno = []
     ordersno= []
-    count=0
-        # for product in trending_products:
-        # category = Category.objects.get(id = product.category_id)
-        # category_product.append([category, product])
     for prod in wishlist:
         productnames.append(prod.product.name)
-        ordersno= Product.objects.raw('SELECT * FROM store_orderitem WHERE store_orderitem.product_id=%s',[prod.product.id])
-        for ord in ordersno:
-            count =count+1
-        productordersno.append(count)
+        ordersno = OrderItem.objects.filter(product_id= prod.product.id).count()
+        productordersno.append(ordersno)
     zipped = zip(wishlist,productordersno)
     context = {'wishlist':wishlist,'productordersno':productordersno, 'zipped' :zipped,'productnames':productnames}
     return render(request,'store/wishlist.html', context)

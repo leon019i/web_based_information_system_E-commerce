@@ -7,10 +7,11 @@ from store.controller import authview,cart,wishlist,checkout,order
 
 urlpatterns = [
     path('', views.home, name="home"),
+    
     path('collections', views.collections, name="collections"),
     path('collections/<str:slug>', views.collectionsview, name="collectionsview"),
     path('collections/<str:cate_slug>/<str:prod_slug>', views.productview, name="productview"),
-    
+    path('collectionsearch/<str:slug>',views.collectionsearch,name='collectionsearch'),
     path('product-list',views.productlistAjax),
     path('searchproduct',views.searchproduct, name="searchproduct"),
 
@@ -38,4 +39,5 @@ urlpatterns = [
     path('view-order/<str:t_no>',order.vieworder,name="overview"),
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.activate, name='activate'),
     path('captcha/', include('captcha.urls')),
+
 ]

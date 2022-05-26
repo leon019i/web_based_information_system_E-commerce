@@ -1,4 +1,5 @@
 from asyncio import events
+from django.db.models import  Max, Min
 from email import message
 import email
 from itertools import product
@@ -11,6 +12,7 @@ from xmlrpc.client import DateTime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
+from numpy import maximum, minimum
 from pymysql import Date
 from tomlkit import datetime
 from account.models import Account
@@ -80,11 +82,29 @@ def collections(request):
     return render(request, "store/collections.html", context)
 
 
+
+def collectionsearch(request,slug):
+    if ('max' in request.GET):
+        maxprice=request.GET.get('max')
+    products = Product.objects.filter(category__slug = slug).filter( selling_price__lte = maxprice)
+    category = Category.objects.filter(slug=slug).first()
+    total_data=Product.objects.count()
+    min_price = Product.objects.filter(category__slug = slug).aggregate(minprice=Min('selling_price'))
+    max_price = Product.objects.filter(category__slug = slug).aggregate(maxprice=Max('selling_price'))
+    context = {'products': products, 'category': category,'total_data':total_data,'min_price':min_price,'max_price':max_price,'max':maxprice}
+    return render(request, "store/products/index.html", context)
+    
+    
+
 def collectionsview(request, slug):
     if(Category.objects.filter(slug=slug, status=0)):
         products = Product.objects.filter(category__slug=slug)
         category = Category.objects.filter(slug=slug).first()
-        context = {'products': products, 'category': category}
+        total_data=Product.objects.count()
+        min_price = Product.objects.filter(category__slug = slug).aggregate(minprice=Min('selling_price'))
+        max_price = Product.objects.filter(category__slug = slug).aggregate(maxprice=Max('selling_price'))
+        max = max_price["maxprice"]
+        context = {'products': products, 'category': category,'total_data':total_data,'min_price':min_price,'max_price':max_price, 'max':max}
         return render(request, "store/products/index.html", context)
     else:
         messages.warning(request, "No such category found")
@@ -95,6 +115,7 @@ def productview(request, cate_slug, prod_slug):
     if(Category.objects.filter(slug=cate_slug, status=0)):
         if(Product.objects.filter(slug=prod_slug, status=0)):
             products = Product.objects.filter(slug=prod_slug, status=0).first
+
             context = {'products': products}
         else:
             # return HttpResponse("no product found")
@@ -137,7 +158,7 @@ def forget_password_first(request):
         print(user_new_password)
         u.set_password(user_new_password)
         u.save(update_fields=['password'])
-        name =  Account.objects.get(email =useremail).username
+        name =  Account.objects.get(email = useremail).username
         subject = useremail +' password reset'
         message =  "Hi "+ name + ",\n"+"There was a request to change your password!\n"+"If you did not make this request then please ignore this email.\n"+"Here's your email: "+useremail+"\n"+"Here's your password: "+user_new_password
 
@@ -147,17 +168,4 @@ def forget_password_first(request):
 
 
 
-
-# def adminchart1(request):
-#     #top places/cities that sold products
-#     numberofcairo = 0
-#     numberofgiza = 0
-#     ordersincairo = Order.objects.raw('SELECT COUNT(store_order.city) FROM store_order WHERE store_order.city= %s ',['cairo'])
-#     ordersingiza = Order.objects.raw('SELECT COUNT(store_order.city) FROM store_order WHERE store_order.city= %s ',['giza'])
-#     for x in ordersincairo:
-#         numberofcairo = numberofcairo+1
-#     for y in ordersingiza:
-#         numberofgiza = numberofgiza+1
-#     context = {'numberofcairo': numberofcairo,'numberofgiza': numberofgiza}
-#     return(request,"env/Lib/site-packages/jazzmin/templates/admin/base.html", context)
 

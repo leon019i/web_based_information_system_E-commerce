@@ -163,9 +163,9 @@
 </table>
 </div>
 {% comment %} chart for contribution of the user {% endcomment %}
-    <div class="container">
-        <canvas  id="myChart" width="300" height="200"></canvas>
-    </div>
+<div class="row align-items-center justify-content-center" style="height:25vh; width:35vw; position: relative">
+    <canvas  id="myChart" ></canvas>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -198,6 +198,8 @@
             }]
         },
         options: {
+            maintainAspectRatio: false,
+            responsive: true,
             scales: {
                 y: {
                     beginAtZero: true
