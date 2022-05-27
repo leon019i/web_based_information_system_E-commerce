@@ -10,7 +10,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from account.models import Account
-from .models import Category, Order,  Product , Cart
+from .models import Category, Order,  Product , Cart, Profile
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -28,6 +29,11 @@ def home(request):
     print(category_product)
     return render(request, "store/index.html",context)
 
+@login_required(login_url='loginpage')
+def profile(request):
+    userprofile=Profile.objects.filter(user=request.user).first()
+    context = {'userprofile': userprofile}
+    return render(request, "store/profile.html", context)
 
 def collections(request):
     category = Category.objects.filter(status=0)

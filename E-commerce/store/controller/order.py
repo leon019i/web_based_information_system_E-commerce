@@ -11,5 +11,5 @@ def index(request):
 def vieworder(request, t_no):
     order = Order.objects.filter(tracking_no = t_no).filter(user=request.user).first()
     orderitems= OrderItem.objects.filter(order=order)
-    contexr = {'order':order, 'orderitems':orderitems}
+    context = {'order':order, 'orderitems':orderitems}
     return render(request, "store/orders/view.html",context)

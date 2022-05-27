@@ -1,0 +1,90 @@
+{% extends 'store/layouts/main.html' %}
+{% block content %}
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home /</a>
+        <a class="text-white" href="{% url 'profile' %}">Profile</a>
+    </div>
+</div>
+<div class="container mt-4">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="card shadow checkoutform">
+                    <div class="card-body">
+
+                        <h6>Your profile</h6>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="">First Name</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.first_name }}"
+                                    name="fname" placeholder="Enter first name">
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <label for="">Last Name</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.last_name }}"
+                                    name="lname" placeholder="Enter last name">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Email</label>
+                                <input type="email" required class="form-control" value="{{ request.user.email }}"
+                                    name="email" placeholder="Enter Email">
+                            </div>
+
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Phone</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.phone }}"
+                                    name="phone" placeholder="Enter Phone">
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+
+                                <label for="">Address</label>
+                                <textarea class="form-control" required name="address"
+                                    placeholder="Enter your Address"> {{ userprofile.address }} </textarea>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">City</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.city }}"
+                                    name="city" placeholder="Enter City">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">State</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.state }}"
+                                    name="state" placeholder="Enter State">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Country</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.country }}"
+                                    name="country" placeholder="Enter Country">
+                            </div>
+                            <div class="col-md-6 mt-2">
+
+                                <label for="">Pin Code</label>
+                                <input type="text" required class="form-control" value="{{ userprofile.pincode }}"
+                                    name="pincode" placeholder="Enter Pin Code">
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block form-control mt-2">Save</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock content %}

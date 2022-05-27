@@ -88,16 +88,13 @@ def changepassword(request):
             user = Account.objects.get(pk=uid)  
         except(TypeError, ValueError, OverflowError, Account.DoesNotExist):  
             user = None
-        if user is not None and account_activation_token.check_token(user, token) and (user.is_activated_via_email == False):
+        if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True 
             user.is_activated_via_email = True 
             user.save()
             user.set_password(newPassword)
             user.save(update_fields=['password'])
-            messages.success(request, "Thank you for completing the registeration. Now you can login to your account.")
-            return redirect('/login')
-        else:
-            return HttpResponse('Link has already been used!')
+            return HttpResponse('Password set now you can login to your account!')
 
 def loginpage(request):
     if request.user.is_authenticated:

@@ -14,6 +14,7 @@ from numpy import product
 from django.contrib.auth.models import User
 
 from store.models import Cart, Order, OrderItem, Product, Profile
+from account.models import Account
 
 
 @login_required(login_url='loginpage')
@@ -39,15 +40,15 @@ def index(request):
 def placeorder(request):
     if request.method == 'POST':
 
-        currentuser=User.objects.filter(id=request.user.id).first()
-        if not currentuser.first_name :
-            currentuser.first_name = request.POST.get('fname')
-            currentuser.last_name =request.POST.get('lname')
-            currentuser.save()
+        
+            
+            
 
         if not Profile.objects.filter(user=request.user):
            userprofile=Profile()
            userprofile.user = request.user
+           userprofile.first_name = request.POST.get('fname')
+           userprofile.last_name =request.POST.get('lname')
            userprofile.phone = request.POST.get('phone')
            userprofile.address = request.POST.get('address')
            userprofile.city = request.POST.get('city')
