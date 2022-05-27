@@ -33,9 +33,9 @@ urlpatterns = [
     
     path('checkout',checkout.index,name="checkout"),
     path('place-order', checkout.placeorder,name="placeorder"),
-    path('my-orders', checkout.orders),
 
-    path('my-orders', order.index,name="myorders"),
+    path('myorders', order.index, name="myorders"),
+    
     path('view-order/<str:t_no>',order.vieworder,name="overview"),
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.activate, name='activate'),
     path('captcha/', include('captcha.urls')),
