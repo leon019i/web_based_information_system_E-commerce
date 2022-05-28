@@ -14,7 +14,6 @@ admin.site.register(Cart)
 admin.site.register(Order) 
 admin.site.register(OrderItem) 
 admin.site.register(Profile)
-admin.site.register(Ads)  
 
 admin.site.unregister(Group)
 class AccountAdmin(UserAdmin):
