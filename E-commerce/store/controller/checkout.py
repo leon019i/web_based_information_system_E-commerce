@@ -39,11 +39,6 @@ def index(request):
 @login_required(login_url='loginpage')
 def placeorder(request):
     if request.method == 'POST':
-
-        
-            
-            
-
         if not Profile.objects.filter(user=request.user):
            userprofile=Profile()
            userprofile.user = request.user

@@ -1,6 +1,7 @@
 from datetime import datetime
 import email
 from email import contentmanager
+from email.policy import default
 import imp
 import re
 from django.db import models
@@ -133,6 +134,7 @@ class Profile(models.Model):
     user=models.OneToOneField(account.Account,on_delete=models.CASCADE)
     first_name= models.CharField(max_length=150,null=False, default='')
     last_name= models.CharField(max_length=150,null=False, default='')
+    profile_image = models.ImageField(upload_to=get_file_path, null=False,blank=True, default='/upload/default_profile_pic.png')
     phone=models.CharField(max_length=150,null=False)
     address=models.TextField(null=False)
     city=models.CharField(max_length=150,null=False)

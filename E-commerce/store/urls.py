@@ -4,6 +4,8 @@ from numpy import place
 from . import views
 from store.controller import authview,cart,wishlist,checkout,order
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -33,6 +35,7 @@ urlpatterns = [
     path('add-to-wishlist', wishlist.addtowishlist, name="addtowishlist"),
     path('delete-wishlist-item', wishlist.deletewishlistitem, name="deletewishlistitem"),
     path('profile',views.profile, name="profile"),
+    path('profileForm', views.profileForm, name="profileForm"),
     
     path('checkout',checkout.index,name="checkout"),
     path('place-order', checkout.placeorder,name="placeorder"),
@@ -43,3 +46,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
