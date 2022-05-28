@@ -36,4 +36,53 @@
         </div>
         
     </div>
+     
+    <div class="container">
+        <div><h1></h1></div>
+        <h3>Summary for different collections</h3>
+        <table class="table table-striped" style="width:80%">
+            <tr>
+                <th>Collection Name </th>
+                <th>Number of products </th>
+            </tr>
+            {% for cn,num in zipped %}
+                <tr>
+                    <td>{{cn.name}}</td>
+                    <td>{{num}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<div class="row align-items-center justify-content-center" style="height:40vh; width:80vw; position: relative; margin: auto">
+    <canvas id="myChart"></canvas>
+</div>
+<script>
+var xValues = {{categorynames|safe}};
+var yValues = {{numberofproductsincat|safe}};
+var barColors = ["red", "green","blue","orange","brown"];
+
+new Chart("myChart", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    responsive: true,
+    title: {
+      display: true,
+      text: "Collections"
+    }
+  }
+});
+</script>
+    </div>
+    
 {% endblock content %}

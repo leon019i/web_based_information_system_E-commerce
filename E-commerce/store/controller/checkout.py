@@ -3,6 +3,7 @@
 
 
 
+from os import name
 import random
 
 from django.http import HttpResponse, JsonResponse
@@ -28,13 +29,13 @@ def index(request):
     total_price = 0
     for item in cartitems:
         total_price = total_price + item.product.selling_price * item.product_qty
-
+    #Total Number of orders for user
+    #cartitem --> products inside the cart (i.e count orderitems for single product in the cart)
     userprofile=Profile.objects.filter(user=request.user).first()
 
-
-    context = {'cartitems': cartitems, 'total_price': total_price ,'userprofile':userprofile}
+    
+    context = {'cartitems': cartitems, 'total_price': total_price ,'userprofile':userprofile }
     return render(request, "store/checkout.html", context)
-
 
 @login_required(login_url='loginpage')
 def placeorder(request):
@@ -108,6 +109,3 @@ def placeorder(request):
 
 
 
-
-def orders(request):
-    return HttpResponse("My orders Page")

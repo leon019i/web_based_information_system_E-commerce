@@ -1,14 +1,21 @@
-from itertools import product
 from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from store.models import Product, Whishlist
+from store.models import Product, Whishlist , OrderItem
 
 def index(request):
     wishlist = Whishlist.objects.filter(user=request.user)
-    context = {'wishlist':wishlist}
+    productnames= []
+    productordersno = []
+    ordersno= []
+    for prod in wishlist:
+        productnames.append(prod.product.name)
+        ordersno = OrderItem.objects.filter(product_id= prod.product.id).count()
+        productordersno.append(ordersno)
+    zipped = zip(wishlist,productordersno)
+    context = {'wishlist':wishlist,'productordersno':productordersno, 'zipped' :zipped,'productnames':productnames}
     return render(request,'store/wishlist.html', context)
 
 def addtowishlist(request):

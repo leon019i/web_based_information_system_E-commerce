@@ -1,14 +1,20 @@
 from asyncio import events
+from django.db.models import  Max, Min
 from email import message
 import email
 from itertools import product
+import json
 from multiprocessing import context
 from pyexpat.errors import messages
 from unicodedata import category
 from urllib import request
+from xmlrpc.client import DateTime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
+from numpy import maximum, minimum
+from pymysql import Date
+from tomlkit import datetime
 from account.models import Account
 from .models import Category, Order,  Product , Cart, Profile
 from django.contrib.auth.decorators import login_required
@@ -23,6 +29,8 @@ def home(request):
         category = Category.objects.get(id = product.category_id)
         category_product.append([category, product])
 
+    
+    
     context = {
         'category_product': category_product,
         'trending_products' : trending_products
@@ -38,15 +46,72 @@ def profile(request):
 
 def collections(request):
     category = Category.objects.filter(status=0)
-    context = {'category': category}
+    categorynames=[]
+    catprod1=[]
+    catprod2=[]
+    catprod3=[]
+    catprod4=[]
+    number=0
+    numberofproductsincat = []
+    allproducts = Product.objects.all()
+    for cat in category:
+        categorynames.append(cat.name)
+
+    for prod in allproducts:
+        if prod.category.name =="Fashion":
+            catprod1.append(prod.name)
+        elif prod.category.name=="Footware":
+            catprod2.append(prod.name)
+
+        elif prod.category.name == "Mobiles":
+            catprod3.append(prod.name)
+
+        else:
+            catprod4.append(prod.name)
+    
+    number = len(catprod1)
+    numberofproductsincat.append(number)
+
+    number = len(catprod2)
+
+    numberofproductsincat.append(number)
+    
+    number = len(catprod3)
+
+    numberofproductsincat.append(number)
+    
+    number = len(catprod4)
+
+    numberofproductsincat.append(number)
+    
+    zipped = zip(category,numberofproductsincat)
+    context = {'category': category,'zipped': zipped ,'numberofproductsincat':numberofproductsincat,'categorynames':categorynames}
     return render(request, "store/collections.html", context)
 
+
+
+def collectionsearch(request,slug):
+    if ('max' in request.GET):
+        maxprice=request.GET.get('max')
+    products = Product.objects.filter(category__slug = slug).filter( selling_price__lte = maxprice)
+    category = Category.objects.filter(slug=slug).first()
+    total_data=Product.objects.count()
+    min_price = Product.objects.filter(category__slug = slug).aggregate(minprice=Min('selling_price'))
+    max_price = Product.objects.filter(category__slug = slug).aggregate(maxprice=Max('selling_price'))
+    context = {'products': products, 'category': category,'total_data':total_data,'min_price':min_price,'max_price':max_price,'max':maxprice}
+    return render(request, "store/products/index.html", context)
+    
+    
 
 def collectionsview(request, slug):
     if(Category.objects.filter(slug=slug, status=0)):
         products = Product.objects.filter(category__slug=slug)
         category = Category.objects.filter(slug=slug).first()
-        context = {'products': products, 'category': category}
+        total_data=Product.objects.count()
+        min_price = Product.objects.filter(category__slug = slug).aggregate(minprice=Min('selling_price'))
+        max_price = Product.objects.filter(category__slug = slug).aggregate(maxprice=Max('selling_price'))
+        max = max_price["maxprice"]
+        context = {'products': products, 'category': category,'total_data':total_data,'min_price':min_price,'max_price':max_price, 'max':max}
         return render(request, "store/products/index.html", context)
     else:
         messages.warning(request, "No such category found")
@@ -57,6 +122,7 @@ def productview(request, cate_slug, prod_slug):
     if(Category.objects.filter(slug=cate_slug, status=0)):
         if(Product.objects.filter(slug=prod_slug, status=0)):
             products = Product.objects.filter(slug=prod_slug, status=0).first
+
             context = {'products': products}
         else:
             # return HttpResponse("no product found")
@@ -99,7 +165,7 @@ def forget_password_first(request):
         print(user_new_password)
         u.set_password(user_new_password)
         u.save(update_fields=['password'])
-        name =  Account.objects.get(email =useremail).username
+        name =  Account.objects.get(email = useremail).username
         subject = useremail +' password reset'
         message =  "Hi "+ name + ",\n"+"There was a request to change your password!\n"+"If you did not make this request then please ignore this email.\n"+"Here's your email: "+useremail+"\n"+"Here's your password: "+user_new_password
 

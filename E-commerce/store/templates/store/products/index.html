@@ -9,30 +9,51 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ category.name }}</h1>
-            <hr>
-            <div class="row">
-                {% for item in products %}
-                <div class="col-md-3">
-                    <div class="card">
-                        <a href="{% url 'productview' item.category.slug item.slug %}">
-                            <div class="card-body">
-                                <div class="category-image">
-                                    <img src="{{ item.product_image.url }}" alt="Product image" class="w-100" />
-                                </div>
-                                <h4 class="text-center">{{ item.name }}</h4>
-                                <span class="float-start"> <s>{{ item.original_price | stringformat:'d' }} EGP</s></span>
-                                <span class="float-end">{{ item.selling_price | stringformat:'d' }} EGP</span>
-                            </div>
-                        </a>
-                    </div>
+    <form method = "GET" action='{% url 'collectionsearch' category.slug %}'>
+        <div class="col-md-8 m-auto mt-4">
+            <div class="card shadow mb-4">
+                <h6 class="card-header">Price</h6>
+                <div class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input type="range" value="{{max}}" max={{max_price.maxprice}} min={{min_price.minprice}} id="rangeInput" oninput="maxPrice.value=this.value" />
+                        <p>{{min_price.minprice}} - {{max_price.maxprice}}</p>
+                    </li>
+                    <li class="list-group-item">
+                        Max: <input type="number" value={{max}} max={{max_price.maxprice}} min={{min_price.minprice}} class="form-control" id="maxPrice" onkeyup="rangeInput.value=this.value" name="max"/>
+                        <button id="priceFilterBtn" class="btn btn-info btn-sm mt-1">Filter</button>
+                    </li>
                 </div>
-                {% endfor %}
+            </div>    
+        </div>
+    </form>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ category.name }}</h1>
+                <hr>
+                <div class="row">
+                    {% for item in products %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <a href="{% url 'productview' item.category.slug item.slug %}">
+                                <div class="card-body">
+                                    <div class="category-image">
+                                        <img src="{{ item.product_image.url }}" alt="Product image" class="w-100" />
+                                    </div>
+                                    <h4 class="text-center">{{ item.name }}</h4>
+                                    <span class="float-start"> <s>{{ item.original_price | stringformat:'d' }} EGP</s></span>
+                                    <span class="float-end">{{ item.selling_price | stringformat:'d' }} EGP</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
+        
+ 
 {% endblock content %}

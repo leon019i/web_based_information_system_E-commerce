@@ -74,23 +74,26 @@
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
         
         <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-        <script>
-          var availableTags = [];
-          $.ajax({
-            method: "Get",
-            url: "/product-list",
-            success: function (response)
-            {
-              startAutocomplete(response);
-            }
-          });
+        
+        <script>src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"</script>
 
-          function startAutocomplete(availableTags)
-          {
-            $( "#searchproducts" ).autocomplete({
-              source: availableTags
+        <script>
+            var availableTags = [];
+            $.ajax({
+              method: "Get",
+              url: "/product-list",
+              success: function (response)
+              {
+                startAutocomplete(response);
+              }
             });
-          }
+
+            function startAutocomplete(availableTags)
+            {
+              $( "#searchproducts" ).autocomplete({
+                source: availableTags
+              });
+            }
         </script>
         <script>
         alertify.set('notifier','position', 'top-right');
@@ -99,6 +102,10 @@
          msg.delay(1.3)
          {% endfor %}
         </script>
+
+
+        
+
         {% block scripts %}
         {% endblock scripts %}
     </body>
