@@ -26,6 +26,8 @@ urlpatterns = [
     path('submit-password-form', authview.changepassword, name="changepassword"),
     path('forget-password/', views.forget_password, name="forget_password"),
     path('forget-forget_password_first/', views.forget_password_first, name="forget_password_first"),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='store/registration/password_change_done.html'),name='password_change_done'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='store/registration/password_change.html'), name='password_change'),
 
     path('add-to-cart', cart.addtocart, name="addtocart"),
     path('cart', cart.viewcart, name="cart"),
