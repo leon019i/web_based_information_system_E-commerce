@@ -23,7 +23,7 @@ urlpatterns = [
     path('login/', authview.loginpage, name="loginpage"),
     path('logout/', authview.logoutpage, name="logout"),
     path('passwordForm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', authview.passwordForm, name="passwordForm"),
-    path('submit-password-form', authview.changepassword, name="changepassword"),
+    path('submit-password-form', authview.setpassword, name="changepassword"),
     path('forget-password/', views.forget_password, name="forget_password"),
     path('forget-forget_password_first/', views.forget_password_first, name="forget_password_first"),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='store/registration/password_change_done.html'),name='password_change_done'),

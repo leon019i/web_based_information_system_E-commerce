@@ -78,7 +78,7 @@ def passwordForm(request, uidb64, token):
         return HttpResponse('Link has already been used!')
 
 
-def changepassword(request):
+def setpassword(request):
     newPassword = request.POST.get('password')
     token = request.POST.get('tok')
     uidb64 = request.POST.get('uidb64')
