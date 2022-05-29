@@ -87,43 +87,14 @@ def profileForm(request):
 def collections(request):
     category = Category.objects.filter(status=0)
     categorynames=[]
-    catprod1=[]
-    catprod2=[]
-    catprod3=[]
-    catprod4=[]
     number=0
     numberofproductsincat = []
-    allproducts = Product.objects.all()
+    
     for cat in category:
         categorynames.append(cat.name)
-
-    for prod in allproducts:
-        if prod.category.name =="Fashion":
-            catprod1.append(prod.name)
-        elif prod.category.name=="Footware":
-            catprod2.append(prod.name)
-
-        elif prod.category.name == "Mobiles":
-            catprod3.append(prod.name)
-
-        else:
-            catprod4.append(prod.name)
-    
-    number = len(catprod1)
-    numberofproductsincat.append(number)
-
-    number = len(catprod2)
-
-    numberofproductsincat.append(number)
-    
-    number = len(catprod3)
-
-    numberofproductsincat.append(number)
-    
-    number = len(catprod4)
-
-    numberofproductsincat.append(number)
-    
+        allproducts = Product.objects.filter(category__name = cat.name)
+        products = len(allproducts)
+        numberofproductsincat.append(products)
     zipped = zip(category,numberofproductsincat)
     context = {'category': category,'zipped': zipped ,'numberofproductsincat':numberofproductsincat,'categorynames':categorynames}
     return render(request, "store/collections.html", context)
