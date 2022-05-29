@@ -17,6 +17,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
+                                    <th>Product Name</th>
                                     <th>order Date</th>
                                     <th>Tracking Number</th>
                                     <th>Total price</th>
@@ -31,7 +32,7 @@
                                         <td>{{prod.name}}</td>
                                         <td>{{item.created_at}}</td>
                                         <td>{{item.tracking_no}}</td>
-                                        <td>{{item.total_price}}</td>
+                                        <td>{{item.total_price}} EGP</td>
                                         <td>{{item.status}}</td>
                                         <td>
                                             <a href="{% url 'overview' item.tracking_no %}" class = "btn btn-primary">view</a>

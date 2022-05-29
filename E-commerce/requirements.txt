@@ -3,9 +3,17 @@ asgiref==3.5.0
 click==8.1.1
 colorama==0.4.4
 Django==4.0.3
+django-ads==1.1.1
+django-appconf==1.0.5
+django-braces==1.15.0
+django-classy-tags==3.0.1
 django-cors-headers==3.11.0
 django-jazzmin==2.5.0
+django-js-reverse==0.9.1
+django-ranged-response==0.2.0
 django-resized==0.3.11
+django-sekizai==3.0.1
+django-simple-captcha==0.5.17
 django-utils-six==2.0
 djlint==0.7.6
 graphene==2.1.9
