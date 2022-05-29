@@ -15,7 +15,6 @@ class CustomUserForm(UserCreationForm):
     password1 = Account.objects.make_random_password(length=10)
     password2 = password1
     test = password1
-    print("this is the password"+test)
     password1 = forms.CharField(initial=password1)
     password2= forms.CharField(initial=password2) 
     captcha = CaptchaField(required=True)

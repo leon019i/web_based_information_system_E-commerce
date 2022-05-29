@@ -1,6 +1,5 @@
 from cgi import test
 import email
-from http.client import HTTPResponse
 import imp
 from multiprocessing import context
 import re
@@ -88,8 +87,7 @@ def setpassword(request):
             print("before")
             messages.success(request, "password has been set, now you can log in to your account")
             print("after")
-            return HTTPResponse("password has been set, now you can log in to your account")
-    return HTTPResponse("password has been set, now you can log in to your account")
+            return HttpResponse("password has been set, now you can log in to your account")
 def loginpage(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in")
