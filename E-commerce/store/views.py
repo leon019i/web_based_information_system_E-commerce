@@ -36,7 +36,6 @@ def home(request):
         'category_product': category_product,
         'trending_products' : trending_products
         }
-    print(category_product)
     return render(request, "store/index.html",context)
 
 @login_required(login_url='loginpage')
@@ -200,10 +199,8 @@ def forget_password(request):
 def forget_password_first(request):
     if request.method == 'POST':
         useremail = request.POST['fp_email']
-        print(useremail)
         u = Account.objects.get(email =useremail)
         user_new_password = Account.objects.make_random_password(length=10)
-        print(user_new_password)
         u.set_password(user_new_password)
         u.save(update_fields=['password'])
         name =  Account.objects.get(email = useremail).username
