@@ -19,6 +19,7 @@ from account.models import Account
 from .models import Category, Order,  Product , Cart, Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import ProfilePictureForm
 # Create your views here.
 
 
@@ -41,8 +42,48 @@ def home(request):
 @login_required(login_url='loginpage')
 def profile(request):
     userprofile=Profile.objects.filter(user=request.user).first()
-    context = {'userprofile': userprofile}
+    form = ProfilePictureForm(instance=userprofile)
+
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Picture uploaded successfully")
+    context = {'userprofile': userprofile, 'form' : form}
     return render(request, "store/profile.html", context)
+
+@login_required(login_url='loginpage')
+def profileForm(request):
+    if request.method == 'POST':
+        user = request.user
+        first_name = request.POST['fname']
+        last_name = request.POST['lname']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        city = request.POST['city']
+        state = request.POST['state']
+        country =request.POST['country']
+        pincode = request.POST['pincode']
+
+        if not Profile.objects.filter(user=request.user):
+            profile = Profile()
+            profile.user = user
+        else:
+            profile = Profile.objects.get(user = user)       
+            
+        profile.first_name =  first_name
+        profile.last_name = last_name
+        profile.phone = phone
+        profile.address = address
+        profile.city = city
+        profile.state = state
+        profile.country = country
+        profile.pincode = pincode
+        user.email = request.POST['email']    
+        profile.save()
+        user.save()
+        messages.success(request, "Your data is updated successfully!")
+        return redirect('profile')
 
 def collections(request):
     category = Category.objects.filter(status=0)
@@ -173,38 +214,7 @@ def forget_password_first(request):
 
         return render(request, "store/auth/after_reset_pass.html")
 
-@login_required(login_url='loginpage')
-def profileForm(request):
-    if request.method == 'POST':
-        user = request.user
-        first_name = request.POST['fname']
-        last_name = request.POST['lname']
-        phone = request.POST['phone']
-        address = request.POST['address']
-        city = request.POST['city']
-        state = request.POST['state']
-        country =request.POST['country']
-        pincode = request.POST['pincode']
 
-        if not Profile.objects.filter(user=request.user):
-            profile = Profile()
-            profile.user = user
-        else:
-            profile = Profile.objects.get(user = user)       
-            
-        profile.first_name =  first_name
-        profile.last_name = last_name
-        profile.phone = phone
-        profile.address = address
-        profile.city = city
-        profile.state = state
-        profile.country = country
-        profile.pincode = pincode
-        user.email = request.POST['email']    
-        profile.save()
-        user.save()
-        messages.success(request, "Your data is updated successfully!")
-        return redirect('/')
 
         
         

@@ -1,8 +1,10 @@
+from dataclasses import fields
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 
 from account.models import Account
 from django import forms
 from captcha.fields import CaptchaField, CaptchaTextInput
+from .models import Profile
 
 class CustomUserForm(UserCreationForm):
     username = forms.CharField(required=True,widget=forms.TextInput(attrs={'class':'form-control my-2', 'placeholder':'Enter username'}))
@@ -21,5 +23,7 @@ class CustomUserForm(UserCreationForm):
         model = Account 
         fields =['username', 'email', 'password1', 'password2']
 
-
-    
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_image']

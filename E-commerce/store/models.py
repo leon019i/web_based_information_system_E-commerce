@@ -134,7 +134,7 @@ class Profile(models.Model):
     user=models.OneToOneField(account.Account,on_delete=models.CASCADE)
     first_name= models.CharField(max_length=150,null=False, default='')
     last_name= models.CharField(max_length=150,null=False, default='')
-    profile_image = models.ImageField(upload_to=get_file_path, null=False,blank=True, default='/upload/default_profile_pic.png')
+    profile_image = models.ImageField(upload_to=get_file_path, null=True,blank=True)
     phone=models.CharField(max_length=150,null=False)
     address=models.TextField(null=False)
     city=models.CharField(max_length=150,null=False)
