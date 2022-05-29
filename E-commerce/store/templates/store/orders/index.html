@@ -26,16 +26,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for item,prod in zipped %}
+                                {% for pname,price,tno,date,status in zipped %}
                                     
                                     <tr>
-                                        <td>{{prod.name}}</td>
-                                        <td>{{item.created_at}}</td>
-                                        <td>{{item.tracking_no}}</td>
-                                        <td>{{item.total_price}} EGP</td>
-                                        <td>{{item.status}}</td>
+                                        <td>{{pname}}</td>
+                                        <td>{{date}}</td>
+                                        <td>{{tno}}</td>
+                                        <td>{{price}} EGP</td>
+                                        <td>{{status}}</td>
                                         <td>
-                                            <a href="{% url 'overview' item.tracking_no %}" class = "btn btn-primary">view</a>
+                                            <a href="{% url 'overview' tno %}" class = "btn btn-primary">view</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
