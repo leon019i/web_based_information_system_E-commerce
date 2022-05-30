@@ -55,6 +55,12 @@
                         <li>
                             <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                         </li>
+                        {% if request.user.is_admin and request.user.is_staff%}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a>
+                        </li>
+                        {% endif %}
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
