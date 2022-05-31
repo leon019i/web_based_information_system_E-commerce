@@ -176,22 +176,9 @@ def forget_password_first(request):
         u.save(update_fields=['password'])
         name =  Account.objects.get(email = useremail).username
         subject = useremail +' password reset'
-        message =  "Hi "+ name + ",\n"+"There was a request to change your password!\n"+"If you did not make this request then please ignore this email.\n"+"Here's your email: "+useremail+"\n"+"Here's your password: "+user_new_password
+        message =  "Hi "+ name + ",\n"+"There was a request to change your password!\n"+"If you did not make this request then please ignore this email.\n"+"Here's your email: "+useremail+"\n"+"Here's your password: "+user_new_password +"\n"+ "Don't forget to change your password as soon as possible to avoid malicious attacks"
 
-        send_mail(subject=subject,message=message,from_email='lordleo68@gmail.com' ,recipient_list=["leonlord0@gmail.com",useremail])
+        send_mail(subject=subject,message=message,from_email='lordleo68@gmail.com' ,recipient_list=[useremail])
 
         return render(request, "store/auth/after_reset_pass.html")
 
-
-
-        
-        
-
-        
-
-
-
-
-        
-    
-        

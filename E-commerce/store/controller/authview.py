@@ -45,7 +45,7 @@ def register(request):
                 )  
                 email.send() 
                 messages.success(request, "Please confirm your email address to complete the registration")
-                # return redirect('/login')
+                return redirect('/login')
         else:
             form = CustomUserForm()
 
@@ -54,7 +54,6 @@ def register(request):
 
          
 def passwordForm(request, uidb64, token):
-
     uid = force_str(urlsafe_base64_decode(uidb64))
     user = Account.objects.get(pk=uid)
     if user.is_activated_via_email == False: 
@@ -84,10 +83,10 @@ def setpassword(request):
             profile = Profile()
             profile.user = user
             profile.save()
-            print("before")
             messages.success(request, "password has been set, now you can log in to your account")
-            print("after")
-            return HttpResponse("password has been set, now you can log in to your account")
+            return HttpResponse("registeration is now complete, return to the website to login to your account")
+            
+
 def loginpage(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in")
