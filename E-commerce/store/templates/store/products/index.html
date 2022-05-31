@@ -33,7 +33,7 @@
                 <hr>
                 <div class="row">
                     {% for item in products %}
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         <div class="card" style="height: 26rem;">
                             <a href="{% url 'productview' item.category.slug item.slug %}">
                                 <div class="card-body" >
