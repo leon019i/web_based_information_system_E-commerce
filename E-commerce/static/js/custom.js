@@ -37,11 +37,8 @@ $(document).ready(function() {
                  csrfmiddlewaretoken: token
             },
             success: function (response) {
-                console.log(response)
                 var msg = alertify.success(response.status)
                 msg.delay(1.3)
-
-                
             }
         });
         

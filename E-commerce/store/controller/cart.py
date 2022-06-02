@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Cart, OrderItem
 
-@login_required(login_url='loginpage')
+
 def addtocart(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -25,7 +25,9 @@ def addtocart(request):
             else:
                 return JsonResponse({ 'status':"No such product found" })        
         else:
-            return JsonResponse({ 'status':"Login to continue" })
+            return JsonResponse({'status':"Login to continue"})
+    return redirect('/')
+
 
 
     return redirect('/')

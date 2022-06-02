@@ -103,7 +103,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to E-shop",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "store.Products",
+    "search_model":"store.Product",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": "/upload/default_profile_pic.png",
