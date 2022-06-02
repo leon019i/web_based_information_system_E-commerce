@@ -160,6 +160,7 @@ def searchproduct(request):
             if product:
                 return redirect('collections/'+product.category.slug+'/'+product.slug)
             else:
+                messages.success(request, "Product not found")
                 return redirect(request.META.get('HTTP_REFERER'))
     return redirect(request.META.get('HTTP_REFERER'))
 
