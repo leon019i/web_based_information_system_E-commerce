@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-m_$-h_rb@+0f(gr2s3itcn5(eg7ry+fm#0=+ugr+b)!1^+jp89'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =  True #str(os.environ.get('DEBUG')) == "1"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -103,7 +104,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to E-shop",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model":"store.Product",
+    "search_model":"account.Account",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": "/upload/default_profile_pic.png",
@@ -175,6 +176,7 @@ JAZZMIN_SETTINGS = {
 
     #############
     # UI Tweaks #
+    
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     "custom_css": None,
@@ -196,7 +198,6 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"account.Account": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
 }
-
 AUTH_USER_MODEL = 'account.Account'
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
